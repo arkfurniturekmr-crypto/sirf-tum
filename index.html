@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Jaanu 🌹</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Lora:ital,wght@0,400;0,500;1,400&family=Allura&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --plum:#2a0e1e;
+    --rose:#c75d7a;
+    --gold:#d8a857;
+    --cream:#f6e9dd;
+    --blush:#f1d4d9;
+    --ink:#3a1620;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:'Lora',serif;
+    background:var(--plum);
+    color:var(--ink);
+    overflow:hidden;
+    position:relative;
+  }
+
+  /* ---------- floating petals layer ---------- */
+  #petals{
+    position:fixed; inset:0; pointer-events:none; z-index:5; overflow:hidden;
+  }
+  .petal{
+    position:absolute; top:-40px; font-size:22px; opacity:.85;
+    animation:fall linear infinite, sway ease-in-out infinite;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,.15));
+  }
+  @keyframes fall{
+    to{ transform: translateY(110vh); }
+  }
+  @keyframes sway{
+    0%,100%{ margin-left:0; }
+    50%{ margin-left:40px; }
+  }
+
+  /* ---------- app shell ---------- */
+  #app{
+    position:relative; z-index:2;
+    width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+
+  .page{
+    display:none;
+    width:100%; max-width:760px;
+    max-height:92vh;
+    overflow-y:auto;
+    background: var(--page-bg, var(--cream));
+    border:1px solid var(--page-border, rgba(255,255,255,.4));
+    border-radius:18px;
+    padding:42px 46px 36px;
+    position:relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 0 0 8px rgba(255,255,255,.18);
+    animation: riseIn .7s ease both;
+  }
+  .page.active{ display:block; }
+
+  @keyframes riseIn{
+    from{ opacity:0; transform: translateY(24px) scale(.98); }
+    to{ opacity:1; transform: translateY(0) scale(1); }
+  }
+
+  /* corner ornaments */
+  .page::before, .page::after{
+    content:"❀";
+    position:absolute;
+    font-size:20px;
+    color: var(--page-accent, var(--rose));
+    opacity:.6;
+  }
+  .page::before{ top:14px; left:18px; }
+  .page::after{ bottom:14px; right:18px; transform: rotate(180deg); }
+
+  .eyebrow{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    font-size:13px;
+    color: var(--page-accent, var(--rose));
+    margin:0 0 6px;
+    text-align:center;
+  }
+
+  h1.title{
+    font-family:'Allura', cursive;
+    font-size:54px;
+    line-height:1;
+    text-align:center;
+    margin:0 0 18px;
+    color: var(--page-title, var(--ink));
+  }
+
+  .emoji-row{
+    text-align:center;
+    font-size:22px;
+    letter-spacing:6px;
+    margin-bottom:18px;
+    opacity:.9;
+  }
+
+  .letter-text{
+    font-size:18px;
+    line-height:1.85;
+    white-space:pre-line;
+  }
+
+  .shayari{
+    margin:26px 0;
+    padding:18px 22px;
+    border-left:3px solid var(--page-accent, var(--rose));
+    background: rgba(255,255,255,.35);
+    border-radius: 6px;
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:21px;
+    line-height:1.7;
+    white-space:pre-line;
+  }
+
+  /* ---------- photo frame ---------- */
+  .photo-frame{
+    width:100%;
+    aspect-ratio:16/9;
+    margin: 24px 0 8px;
+    border-radius:10px;
+    border:6px solid var(--page-accent, var(--gold));
+    box-shadow: 0 10px 26px rgba(0,0,0,.25);
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.5) 0 10px, rgba(255,255,255,.25) 10px 20px);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    position:relative;
+  }
+  .photo-frame img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .photo-frame .placeholder{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    color: rgba(58,22,32,.55);
+    font-size:15px;
+    text-align:center;
+    padding:0 20px;
+  }
+
+  /* ---------- blank "write your own" page ---------- */
+  .blank-letter{
+    min-height:280px;
+    border:2px dashed var(--page-accent, var(--rose));
+    border-radius:10px;
+    margin-top:22px;
+    background: repeating-linear-gradient(
+      to bottom, transparent, transparent 38px, rgba(58,22,32,.12) 39px
+    );
+    position:relative;
+  }
+  .blank-letter span{
+    position:absolute; top:14px; left:18px;
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    color: rgba(58,22,32,.45);
+    font-size:14px;
+  }
+
+  /* ---------- nav ---------- */
+  .nav-row{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:30px;
+  }
+  .btn{
+    font-family:'Lora',serif;
+    font-size:14px;
+    letter-spacing:.04em;
+    border:1px solid var(--page-accent, var(--rose));
+    background:transparent;
+    color: var(--ink);
+    padding:9px 18px;
+    border-radius:30px;
+    cursor:pointer;
+    transition: all .25s ease;
+  }
+  .btn:hover{ background: var(--page-accent, var(--rose)); color:#fff; }
+  .btn:disabled{ opacity:.25; cursor:default; pointer-events:none; }
+
+  .dots{
+    display:flex; gap:7px;
+  }
+  .dot{
+    width:7px; height:7px; border-radius:50%;
+    background: rgba(58,22,32,.25);
+    cursor:pointer;
+    transition: all .25s ease;
+  }
+  .dot.active{ background: var(--page-accent, var(--rose)); transform: scale(1.4); }
+
+  ::-webkit-scrollbar{ width:6px; }
+  ::-webkit-scrollbar-thumb{ background: rgba(0,0,0,.2); border-radius:4px; }
+
+  @media (max-width:600px){
+    .page{ padding:30px 22px 26px; }
+    h1.title{ font-size:42px; }
+    .letter-text, .shayari{ font-size:16px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="petals"></div>
+<div id="app"></div>
+
+<script>
+/* ============ CONTENT ============ */
+const pages = [
+  {
+    id:"cover",
+    eyebrow:"To My Jaanu",
+    title:"Sirf Tum",
+    emojis:"🌹 🌸 💌 🌷 🌹",
+    accent:"#c75d7a",
+    bg:"linear-gradient(160deg,#f6e9dd,#f1d4d9)",
+    text:`Hey baby, I love you so much. I just want to tell you how much I love you, and how perfect you are in my eyes — how pretty, how rare, how completely you are mine.
+
+I just want to say jaanu... every star in the sky is beautiful, every flower smells sweet, every poem has been written before — but none of it compares to you. The moon has been praised in a thousand songs, but my eyes only ever look for you.`,
+    shayari:`tare bikhre hain aasmaano mein,
+har taraf roshni hai jahaano mein,
+phir bhi nazar thehri hai bas ek jagah,
+woh sirf tum ho, mere har fasaane mein.`,
+    photo:true
+  },
+  {
+    id:"eyes",
+    eyebrow:"Gözlerin",
+    title:"Your Eyes",
+    emojis:"👁️ 🤎 ✨ 🤎 👁️",
+    accent:"#9c6b3e",
+    bg:"linear-gradient(160deg,#f3e6d4,#ecd9bd)",
+    text:`Your eyes were the reason I fell in love with you. I still remember the very first time I looked into them — big, dark brown, and so innocent it almost hurt. I wouldn't mind getting lost in them forever.
+
+Every time I look into your eyes I fall in love all over again. If I lost every memory I have, I am certain I'd fall for your eyes the very same way. I miss them so much right now. They're the prettiest eyes I've ever seen, and if I had to put it into words —`,
+    shayari:`teri aankhon mein woh khanjar nahi, sukoon hai,
+inn mein doob jaane ka mera junoon hai,
+duniya dhoondhe khuda ko mandir aur masjid mein,
+maine to tujhe dekha, aur rab ka noor hai.`,
+    photo:true
+  },
+  {
+    id:"lips",
+    eyebrow:"Tum Aur Tumhari Muskaan",
+    title:"Your Lips",
+    emojis:"💋 😘 🌹 😘 💋",
+    accent:"#b5384f",
+    bg:"linear-gradient(160deg,#f7e2e6,#f1c9d1)",
+    text:`I cannot even explain how pretty and perfect your lips look. Every time you put on a tint, a lip oil, or a gloss, they look impossibly soft and kissable — but even without any of it, they're naturally perfect.
+
+I just want to keep kissing them, every single chance I get. Honestly, I miss you so much right now — I miss your smile, your laugh, and the way your lips curve when you're trying not to smile at something I said.`,
+    shayari:`tere honthon pe hansi, mere dil ka sukoon hai,
+har lafz jo tu kahe, woh ek junoon hai,
+maine chaha hai bahut kuch is zindagi mein,
+par sabse pyara, tera woh muskurana hi to hai.`,
+    photo:true
+  },
+  {
+    id:"nose",
+    eyebrow:"Your Face",
+    title:"Perfectly You",
+    emojis:"🌸 💗 🌸 💗 🌸",
+    accent:"#c87f7a",
+    bg:"linear-gradient(160deg,#fbe9e4,#f3d3cc)",
+    text:`I swear, yours is the most perfect face I've ever seen. Wallai, I want our kids to have your nose someday — it suits your face so flawlessly. Every single angle of you is beautiful: your jaw, your cheeks, the whole way you're put together.
+
+I genuinely cannot find the words. You're stunning, my love, and I miss you so much right now.`,
+    shayari:`chehra tera, jaise chaand ka tukda ho,
+har nazar mein basa, ek khoobsurat sa lamha ho,
+khuda ne fursat se banaya hoga tujhe,
+warna itni kamaal ki taraash kahan hoti hai.`,
+    photo:true
+  },
+  {
+    id:"neck",
+    eyebrow:"Close To You",
+    title:"Your Neck & Your Beauty Mark",
+    emojis:"🌹 💋 🌙 💋 🌹",
+    accent:"#7a2438",
+    bg:"linear-gradient(160deg,#f1dde1,#e3bcc4)",
+    text:`How badly I want to kiss your lips, then your neck, then that little beauty mark you have — just to show you how much I crave you and how perfect you are in every way.
+
+Whenever you spray your perfume on, I want to be close enough to smell it, to hold you, to kiss you there and leave you smiling. I miss you so much right now, more than I can put into words.`,
+    shayari:`khushboo teri, mere saans mein bas gayi hai,
+har lamha tera, dil mein utar gaya hai,
+paas ho ya door, farq nahi padta,
+tera ehsaas hi mere liye kaafi reh gaya hai.`,
+    photo:true
+  },
+  {
+    id:"blank1",
+    eyebrow:"For Your Eyes Only",
+    title:"Your Waist",
+    emojis:"🌹 🤍 🌹",
+    accent:"#a85c72",
+    bg:"linear-gradient(160deg,#f3e3e7,#ecd2da)",
+    blank:true
+  },
+  {
+    id:"blank2",
+    eyebrow:"For Your Eyes Only",
+    title:"Just Us",
+    emojis:"🌹 🤍 🌹",
+    accent:"#a85c72",
+    bg:"linear-gradient(160deg,#f3e3e7,#ecd2da)",
+    blank:true
+  },
+  {
+    id:"blank3",
+    eyebrow:"For Your Eyes Only",
+    title:"All Of You",
+    emojis:"🌹 🤍 🌹",
+    accent:"#a85c72",
+    bg:"linear-gradient(160deg,#f3e3e7,#ecd2da)",
+    blank:true
+  },
+  {
+    id:"hair",
+    eyebrow:"Soft & Wild",
+    title:"Your Hair",
+    emojis:"🌷 🍃 🌷 🍃 🌷",
+    accent:"#8a5a30",
+    bg:"linear-gradient(160deg,#f1e6d2,#e6d2ad)",
+    text:`Your hair is so pretty in every single style — messy buns, soft curls, all of it. I love just playing with it, smelling it, watching you fix it in the mirror without even noticing I'm staring.
+
+I promise to get you that Dyson someday, so you can try new styles and I can keep admiring every single one of them, forever.`,
+    shayari:`zulfon ka udna, hawa ka bahana hai,
+har lehar mein chhupa ek fasana hai,
+unhi ki khushboo mein kho jaata hoon main,
+yehi to mera sabse pyara thikana hai.`,
+    photo:true
+  },
+  {
+    id:"finale",
+    eyebrow:"Forever Yours",
+    title:"My Moon",
+    emojis:"🌙 🌹 💫 🌹 🌙",
+    accent:"#c9974a",
+    bg:"linear-gradient(160deg,#f7ecd8,#f0dcb3)",
+    text:`Babe, everything about you is fucking pretty and perfect. You are the most beautiful woman — pretty, gorgeous, hot, all of it. And I just love you so much, and crave every single thing about you. I can't explain it.
+
+But don't think I only love your body — I love everything about you. Your face, your personality, your kindness, your innocence, every part of who you are. You are the woman I'd love forever, jaanu.
+
+Just know that I love you so much, and I will admire you, adore you, for as long as I live. You're the moon to me. You're my rose. Everything about you is perfect, jaanu. I love you so much, my baby.`,
+    shayari:`chaand sa tu, roshni se bhara hua,
+mera har khwaab, tujhse hi sajaa hua,
+jab tak hai zindagi, tujhe hi chaahunga,
+yehi waada hai mera, dil se kiya hua.`,
+    photo:true
+  }
+];
+
+/* ============ RENDER ============ */
+const app = document.getElementById('app');
+let current = 0;
+
+function buildPage(p, idx){
+  const el = document.createElement('div');
+  el.className = 'page';
+  el.style.setProperty('--page-bg', p.bg);
+  el.style.setProperty('--page-accent', p.accent);
+  el.style.setProperty('--page-title', p.accent);
+
+  let inner = `
+    <div class="eyebrow">${p.eyebrow}</div>
+    <h1 class="title">${p.title}</h1>
+    <div class="emoji-row">${p.emojis}</div>
+  `;
+
+  if(p.blank){
+    inner += `
+      <p class="letter-text" style="text-align:center; opacity:.6; font-style:italic;">
+        This page is just for the two of you — write it yourself 🤍
+      </p>
+      <div class="blank-letter"><span>Dear jaanu...</span></div>
+    `;
+  } else {
+    inner += `
+      <div class="letter-text">${p.text}</div>
+      <div class="shayari">${p.shayari}</div>
+    `;
+    if(p.photo){
+      inner += `
+        <div class="photo-frame">
+          <img src="images/${p.id}.jpg" alt="${p.title}"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="placeholder" style="display:none; flex-direction:column; align-items:center; justify-content:center; height:100%;">
+            📷 Drop your photo here as<br><code>images/${p.id}.jpg</code>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  inner += `
+    <div class="nav-row">
+      <button class="btn" id="back-${idx}">← Back</button>
+      <div class="dots">${pages.map((_,i)=>`<span class="dot ${i===idx?'active':''}" data-go="${i}"></span>`).join('')}</div>
+      <button class="btn" id="next-${idx}">Next →</button>
+    </div>
+  `;
+
+  el.innerHTML = inner;
+  return el;
+}
+
+function render(){
+  app.innerHTML = '';
+  const el = buildPage(pages[current], current);
+  app.appendChild(el);
+  requestAnimationFrame(()=> el.classList.add('active'));
+
+  const backBtn = el.querySelector(`#back-${current}`);
+  const nextBtn = el.querySelector(`#next-${current}`);
+  backBtn.disabled = current === 0;
+  nextBtn.disabled = current === pages.length - 1;
+
+  backBtn.onclick = () => { if(current>0){ current--; render(); } };
+  nextBtn.onclick = () => { if(current<pages.length-1){ current++; render(); } };
+  el.querySelectorAll('.dot').forEach(d=>{
+    d.onclick = () => { current = parseInt(d.dataset.go); render(); };
+  });
+
+  document.body.style.background = p_bg_fallback(pages[current].accent);
+}
+
+function p_bg_fallback(hex){
+  return `radial-gradient(circle at 30% 20%, ${hex}33, #2a0e1e 70%)`;
+}
+
+render();
+
+/* ============ FLOATING PETALS ============ */
+const petalEmojis = ['🌸','🌹','🌷','💮','🥀','🍃'];
+const petalLayer = document.getElementById('petals');
+function spawnPetal(){
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+  p.style.left = Math.random()*100 + 'vw';
+  const dur = 8 + Math.random()*10;
+  p.style.animationDuration = dur + 's, ' + (2+Math.random()*2) + 's';
+  p.style.fontSize = (14 + Math.random()*14) + 'px';
+  petalLayer.appendChild(p);
+  setTimeout(()=> p.remove(), dur*1000 + 500);
+}
+setInterval(spawnPetal, 600);
+for(let i=0;i<8;i++) setTimeout(spawnPetal, i*200);
+</script>
+</body>
+</html>
