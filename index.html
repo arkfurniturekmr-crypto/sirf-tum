@@ -249,11 +249,10 @@ woh sirf tum ho, mere har fasaane mein.`,
     text:`Your eyes were the reason I fell in love with you. I still remember the very first time I looked into them — big, dark brown, and so innocent it almost hurt. I wouldn't mind getting lost in them forever.
 
 Every time I look into your eyes I fall in love all over again. If I lost every memory I have, I am certain I'd fall for your eyes the very same way. I miss them so much right now. They're the prettiest eyes I've ever seen, and if I had to put it into words —`,
-    shayari:`Khanjar hai teri aankhien, 
-Talwar hai teri aankhien,
-Zinda Na Rehne denge aae yaar yeh teri aankhien,
-Humne teri aankhoon mein rab ko dekha hai,
-Isss paar teri aankhien uss par teri aankhien`,
+    shayari:`teri aankhon mein woh khanjar nahi, sukoon hai,
+inn mein doob jaane ka mera junoon hai,
+duniya dhoondhe khuda ko mandir aur masjid mein,
+maine to tujhe dekha, aur rab ka noor hai.`,
     photo:true
   },
   {
@@ -311,46 +310,33 @@ tera ehsaas hi mere liye kaafi reh gaya hai.`,
     emojis:"🌹 🤍 🌹",
     accent:"#a85c72",
     bg:"linear-gradient(160deg,#f3e3e7,#ecd2da)",
-    text:`The smallest perfect grabable waist, and how obsessed i am with ur waist how badly
-    i wanna grab it make oht with u, put my hands over it, kiss it, 
-    lick it, grab it, do everything with it, i wanna pull u close through it,
-    wanna kiss it, and the best and fucking my fav thing about u,
-    That V Line, ufffffff how badly i wanna kiss it, 
-    i cant explain what it does to me. So fucking hot and sexy and pretty.
-    Fuck i miss u so much rn
-.`,
+    text:`There's a place right at your waist where my arm just fits, like it was made to go there. Every time I pull you in close, it's like the rest of the world just goes quiet for a second.
+
+I miss having you that close — the way you relax into me, the way it feels like nothing else matters in that moment. Some of my favorite memories with you are the quiet ones, just holding you and not needing to say anything at all.`,
     blank:true
   },
   {
     id:"blank2",
-    eyebrow:"Your Boobs",
+    eyebrow:"For Your Eyes Only",
     title:"Just Us",
     emojis:"🌹 🤍 🌹",
     accent:"#a85c72",
     bg:"linear-gradient(160deg,#f3e3e7,#ecd2da)",
-    text:`How obsessed i am with them i cant explain, no matter how much i see them 
-    i will still crave them, till the day i die. 
-I wanna grab them, eat them, bite them, lick them, kiss them, pinch them, 
-play with them, with my mouth and hand, leave hickeys on them, 
-they are so fucking big and sexy and ufff thinking of it makes me wanna come them and bite them off,
-u have no idea, how badly i wanna see them everyday too. 
-I am obsessedwith u and ur face and ur body as everything about u, 
-is what i crave. I crave a whole u.  And your underboobs snaps??? 
-Ufffff fuckkk i miss them so much, more than i miss ur nudes…. 
-Those are something that makes me go crazy and nuts. Fuckkk i miss u so much rn.`,
+    text:`Some things about you I don't need words for, I just feel them — the warmth of you next to me, how perfectly you fit when I hold you, the comfort of just being near you after a long day.
+
+I miss that closeness more than I can say. Not just the big moments, but the small ones too — your head on my shoulder, your hand in mine, the quiet in-between moments that somehow mean the most.`,
     blank:true
   },
   {
     id:"blank3",
-    eyebrow:"Your Ass",
+    eyebrow:"For Your Eyes Only",
     title:"All Of You",
     emojis:"🌹 🤍 🌹",
     accent:"#a85c72",
     bg:"linear-gradient(160deg,#f3e3e7,#ecd2da)",
-    text:`Urghhhh so fucking big and perfect, i wanna grab it, spank it, 
-    slap it, while making u out fucking grab that and take u in my lap 
-    and fucking spank it every moment i get, so fucking hot and sexy they look so fucking perfect, 
-    i miss them, i miss seeing it. I love it so much they are so fucking perfect.`,
+    text:`I'm not obsessed with one part of you, I'm obsessed with all of you — the way you laugh at your own jokes before you finish telling them, the way you move, the way you scrunch your nose when you're annoyed with me.
+
+Every little thing that makes you who you are is the thing I love most. Not just how you look, but everything underneath it too — your heart, your mind, the way you care for the people around you. I love you completely, jaanu, every single part.`,
     blank:true
   },
   {
@@ -408,10 +394,7 @@ function buildPage(p, idx){
 
   if(p.blank){
     inner += `
-      <p class="letter-text" style="text-align:center; opacity:.6; font-style:italic;">
-        This page is just for the two of you — write it yourself 🤍
-      </p>
-      <div class="blank-letter"><span>Dear jaanu...</span></div>
+      <div class="letter-text">${p.text}</div>
     `;
   } else {
     inner += `
@@ -421,10 +404,10 @@ function buildPage(p, idx){
     if(p.photo){
       inner += `
         <div class="photo-frame">
-          <img src="images/${p.id}.jpg" alt="${p.title}"
+          <img src="${p.id}.jpg" alt="${p.title}"
                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="placeholder" style="display:none; flex-direction:column; align-items:center; justify-content:center; height:100%;">
-            📷 Drop your photo here as<br><code>images/${p.id}.jpg</code>
+            📷 Drop your photo here as<br><code>${p.id}.jpg</code>
           </div>
         </div>
       `;
